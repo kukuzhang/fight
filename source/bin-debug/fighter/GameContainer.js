@@ -14,25 +14,6 @@ var __extends = (this && this.__extends) || (function () {
 var fighter;
 (function (fighter) {
     /**
-         * socket 回传移动位置事件
-         */
-    var SocketMoveEvent = (function (_super) {
-        __extends(SocketMoveEvent, _super);
-        function SocketMoveEvent(type, bubbles, cancelable) {
-            if (type === void 0) { type = ""; }
-            if (bubbles === void 0) { bubbles = false; }
-            if (cancelable === void 0) { cancelable = false; }
-            var _this = _super.call(this, type, bubbles, cancelable) || this;
-            _this._x = 0;
-            _this._y = 0;
-            _this._nickname = "";
-            return _this;
-        }
-        SocketMoveEvent._event = "socket.move";
-        return SocketMoveEvent;
-    }(egret.Event));
-    __reflect(SocketMoveEvent.prototype, "SocketMoveEvent");
-    /**
      * 主游戏容器
      */
     var GameContainer = (function (_super) {
@@ -53,20 +34,7 @@ var fighter;
             _this.isSend = 3;
             _this._lastTime = egret.getTimer();
             _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
-            //  this.socket = io.connect('http://120.25.149.95:8889/');
-            _this.socket = io.connect('http://127.0.0.1:8889/');
-            _this.socket.on('connect', function () {
-                console.log('socket connect success');
-                this.emit('join', 'gameClient' + Math.random());
-            });
-            console.log('set on send move 3');
             return _this;
-            //  this.socket.on('send.message',function(from,msg){
-            //      console.log(from+'send.message:'+JSON.stringify(msg));   
-            //  })
-            //  this.socket.on('news',function(msg){
-            //      console.log('news:'+JSON.stringify(msg));   
-            //  })
         }
         /**初始化*/
         GameContainer.prototype.onAddToStage = function (event) {
@@ -124,20 +92,6 @@ var fighter;
                 enemyFighter = objArr.pop();
                 fighter.Airplane.reclaim(enemyFighter);
             }
-            this.sockMove = fighter.createBitmapByName("f1"); //开始按钮
-            this.sockMove.x = (this.stageW - this.sockMove.width) / 2; //居中定位
-            this.sockMove.y = (this.stageH - this.sockMove.height) / 2; //居中定位
-            this.sockMove.alpha = 0.4;
-            this.sockMove.addEventListener(SocketMoveEvent._event, this.socketmove, this);
-            this.addChild(this.sockMove);
-            console.log('set on send move 3');
-            var self = this;
-            this.socket.on('send.message', function (from, msg) {
-                self.socketMessage(from, msg);
-            });
-            this.socket.on('news', function (msg) {
-                console.log('news:' + JSON.stringify(msg));
-            });
         };
         /**游戏开始*/
         GameContainer.prototype.gameStart = function () {
@@ -156,17 +110,6 @@ var fighter;
             if (this.scorePanel.parent == this)
                 this.removeChild(this.scorePanel);
         };
-        /**响应事件socket*/
-        GameContainer.prototype.socketmove = function (event) {
-            this.sockMove.x = event.tx;
-            this.sockMove.y = event.ty; //居中定位
-        };
-        /**响应socket*/
-        GameContainer.prototype.socketMessage = function (from, msg) {
-            console.log(from + 'send.message:' + JSON.stringify(msg));
-            this.sockMove.x = msg.tx;
-            this.sockMove.y = msg.ty; //居中定位
-        };
         /**响应Touch*/
         GameContainer.prototype.touchHandler = function (evt) {
             if (evt.type == egret.TouchEvent.TOUCH_MOVE) {
@@ -180,12 +123,6 @@ var fighter;
                 ty = Math.min(this.stageH - this.myFighter.height, ty);
                 this.myFighter.y = ty;
                 this.myFighter.x = tx;
-                if (this.isSend == 0) {
-                    this.isSend = 3;
-                    this.socket.emit('send.message', { tx: tx, ty: ty });
-                    this.socket.emit('send.move', { tx: tx, ty: ty });
-                }
-                this.isSend--;
             }
         };
         /**创建子弹(包括我的子弹和敌机的子弹)*/
