@@ -4,7 +4,8 @@
 		"libs/modules/egret/egret.web.min.js",
 		"libs/modules/res/res.min.js",
 		"libs/modules/tween/tween.min.js",
-		"libs/modules/eui/eui.min.js"
+		"libs/modules/eui/eui.min.js",
+		"libs/modules/socket.io/socket.io.min.js"
 	],
 	"game": [
 		"main.min.js"

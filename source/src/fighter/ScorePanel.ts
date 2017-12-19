@@ -3,6 +3,7 @@
  */
 module fighter
 {
+    
     /**
      * 成绩显示
      */

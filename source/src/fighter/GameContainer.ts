@@ -108,6 +108,8 @@ module fighter
 
             
         }
+        
+        
         /**游戏开始*/
         private gameStart():void{
             this.myScore = 0;
