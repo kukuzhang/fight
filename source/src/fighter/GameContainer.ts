@@ -1,21 +1,6 @@
 module fighter
 {
-/**
-     * socket 回传移动位置事件
-     */
 
-    class SocketMoveEvent extends egret.Event
-{
-    public static _event:string = "socket.move";
-    public _x:number = 0;
-    public _y:number = 0;
-    public _nickname:string = "";
-
-    public constructor(type:string="", bubbles:boolean=false, cancelable:boolean=false)
-    {
-        super(type,bubbles,cancelable);
-    }
-}
     /**
      * 主游戏容器
      */
@@ -60,22 +45,7 @@ module fighter
             super();
             this._lastTime = egret.getTimer();
             this.addEventListener(egret.Event.ADDED_TO_STAGE,this.onAddToStage,this);
-          //  this.socket = io.connect('http://120.25.149.95:8889/');
-             this.socket = io.connect('http://127.0.0.1:8889/');
-            this.socket.on('connect',function () {
-                console.log('socket connect success');
-                this.emit('join', 'gameClient'+Math.random());
-            });
-
-            console.log('set on send move 3');
-            //  this.socket.on('send.message',function(from,msg){
-            //      console.log(from+'send.message:'+JSON.stringify(msg));   
-            //  })
-
-            //  this.socket.on('news',function(msg){
-            //      console.log('news:'+JSON.stringify(msg));   
-            //  })
-
+          
         }
         /**初始化*/
         private onAddToStage(event:egret.Event){
@@ -136,22 +106,7 @@ module fighter
                 fighter.Airplane.reclaim(enemyFighter);
             }
 
-             this.sockMove = fighter.createBitmapByName("f1");//开始按钮
-            this.sockMove.x = (this.stageW - this.sockMove.width) / 2;//居中定位
-            this.sockMove.y = (this.stageH - this.sockMove.height) / 2;//居中定位
-            this.sockMove.alpha = 0.4;
-            this.sockMove.addEventListener(SocketMoveEvent._event,this.socketmove,this);            
-            this.addChild(this.sockMove);
-
-              console.log('set on send move 3');
-            var self = this;
-              this.socket.on('send.message',function(from,msg){
-                self.socketMessage(from,msg);  
-              });
-
-              this.socket.on('news',function(msg){
-                  console.log('news:'+JSON.stringify(msg));   
-              })
+            
         }
         /**游戏开始*/
         private gameStart():void{
@@ -170,23 +125,8 @@ module fighter
             if(this.scorePanel.parent==this)
                 this.removeChild(this.scorePanel);
 
-          
-           
-
         }
 
-         /**响应事件socket*/
-        private socketmove(event){
-            this.sockMove.x = event.tx;
-            this.sockMove.y = event.ty;//居中定位
-        }
-
-          /**响应socket*/
-          private socketMessage(from:string,msg):void{
-            console.log(from+'send.message:'+JSON.stringify(msg));
-            this.sockMove.x = msg.tx;
-            this.sockMove.y = msg.ty;//居中定位
-          }
         /**响应Touch*/
 
         private touchHandler(evt:egret.TouchEvent):void{
@@ -204,12 +144,7 @@ module fighter
 
                  this.myFighter.y = ty;
                  this.myFighter.x = tx;
-             if(this.isSend==0){
-                 this.isSend = 3;
-                  this.socket.emit('send.message',{tx:tx,ty:ty});
-                  this.socket.emit('send.move',{tx:tx,ty:ty});
-             }
-               this.isSend--;
+           
             }
         }
         /**创建子弹(包括我的子弹和敌机的子弹)*/
