@@ -37,7 +37,7 @@ module fighter
              bgBmp.height= this.stage.stageHeight;
 
               this.addChild(bgBmp);
-             return; 
+             //return; 
             this.textureHeight = texture.textureHeight;//保留原始纹理的高度，用于后续的计算
             this.rowCount = Math.ceil(this.stageH/this.textureHeight)+1;//计算在当前屏幕中，需要的图片数量
             this.bmpArr = [];
@@ -52,7 +52,7 @@ module fighter
         }
         /**开始滚动*/
         public start():void {
-            return;
+           // return;
             this.removeEventListener(egret.Event.ENTER_FRAME,this.enterFrameHandler,this);
             this.addEventListener(egret.Event.ENTER_FRAME,this.enterFrameHandler,this);
         }
