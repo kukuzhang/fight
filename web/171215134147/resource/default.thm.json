@@ -1,0 +1,12 @@
+{
+  "exmls": [
+    {
+      "path": "resource/fighter_skins/ButtonSkin.exml",
+      "content": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<e:Skin class=\"skins.ButtonSkin\" states=\"up,down,disabled\" minHeight=\"50\" minWidth=\"100\" xmlns:e=\"http://ns.egret.com/eui\">\r\n    <e:Image width=\"100%\" height=\"100%\" scale9Grid=\"1,3,8,8\" alpha.disabled=\"0.5\"\r\n             source=\"button_up_png\"\r\n             source.down=\"button_down_png\"/>\r\n    <e:Label id=\"labelDisplay\" top=\"8\" bottom=\"8\" left=\"8\" right=\"8\"\r\n             size=\"20\" fontFamily=\"Tahoma 'Microsoft Yahei'\"\r\n             textColor=\"0xFFFFFF\" verticalAlign=\"middle\" textAlign=\"center\"/>\r\n    <e:Image id=\"iconDisplay\" horizontalCenter=\"0\" verticalCenter=\"0\"/>\r\n</e:Skin>\r\n"
+    },
+    {
+      "path": "resource/fighter_skins/startButtonSkin.exml",
+      "content": "<?xml version='1.0' encoding='utf-8'?>\r\n<e:Skin class=\"startButtonSkin\" states=\"up,down,disabled\" minHeight=\"50\" minWidth=\"100\"\r\n        xmlns:e=\"http://ns.egret.com/eui\">\r\n\t<e:Image source=\"btnStart\" includeIn=\"disabled\" horizontalCenter=\"0\" verticalCenter=\"1\"/>\r\n</e:Skin>"
+    }
+  ]
+}
